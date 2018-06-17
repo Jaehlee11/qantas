@@ -15,7 +15,7 @@ mvn spring-boot:run
 
 **SWAGGER API Contract Definition**
 
-[Swagger](http://localhost:8080/qantas/swagger-ui.htm) UI allows anyone to visualize and interact with the API’s resources without having any of the implementation logic in place. 
+[Swagger](http://localhost:8080/qantas/swagger-ui.html) UI allows anyone to visualize and interact with the API’s resources without having any of the implementation logic in place. 
 
 **H2 Database**
 
