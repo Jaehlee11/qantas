@@ -67,13 +67,18 @@ public class ProfileController {
     public Profile updateCustomerProfile(@RequestBody Profile profile, Principal principal, HttpServletResponse response) {
 
         User currentUser = userService.findByUsername(principal.getName());
-        if (currentUser.getId() == profile.getId()) {
-            Profile result = profileService.updateProfile(profile);
-            response.setStatus(HttpServletResponse.SC_RESET_CONTENT);
-            return result;
-        } else {
+        if (currentUser == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return profile;
+        } else {
+            if (currentUser.getId() == profile.getId()) {
+                Profile result = profileService.updateProfile(profile);
+                response.setStatus(HttpServletResponse.SC_RESET_CONTENT);
+                return result;
+            } else {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return profile;
+            }
         }
     }
 
@@ -89,11 +94,15 @@ public class ProfileController {
     public ResponseEntity<Void> deleteCustomerProfile(@PathVariable("id") Long id, Principal principal, HttpServletResponse response) {
 
         User currentUser = userService.findByUsername(principal.getName());
-        if (currentUser.getId() == id) {
-            profileService.deleteProfile(id);
-            return new ResponseEntity<Void>(HttpStatus.OK);
-        } else {
+        if (currentUser == null) {
             return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+        } else {
+            if (currentUser.getId() == id) {
+                profileService.deleteProfile(id);
+                return new ResponseEntity<Void>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+            }
         }
     }
 }
